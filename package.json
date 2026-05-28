@@ -1,0 +1,20 @@
+{
+  "name": "oobe-agent",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.32.1",
+    "@polymarket/clob-client-v2": "^1.0.6",
+    "@solana/spl-token": "^0.4.14",
+    "@solana/web3.js": "^1.87.0",
+    "axios": "^1.16.1",
+    "bs58": "^6.0.0"
+  }
+}

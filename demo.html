@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OOBE Agent — Sheclk AI</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #0a0a1a;
+  color: #e0e0e0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container { max-width: 900px; width: 100%; padding: 40px 20px; }
+header { text-align: center; margin-bottom: 48px; }
+h1 {
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, #9945FF, #14F195);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+.subtitle { color: #888; font-size: 1rem; }
+.card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.card h2 { font-size: 1.1rem; color: #14F195; margin-bottom: 16px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.item { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.label { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+.value { font-size: 0.9rem; color: #e0e0e0; word-break: break-all; font-family: monospace; }
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  background: rgba(20,241,149,0.1);
+  color: #14F195;
+  border: 1px solid rgba(20,241,149,0.2);
+  margin: 2px;
+}
+.caps { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.status-dot {
+  display: inline-block;
+  width: 8px; height: 8px; border-radius: 50%;
+  margin-right: 6px;
+}
+.dot-green { background: #14F195; box-shadow: 0 0 8px rgba(20,241,149,0.5); }
+a { color: #14F195; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.demo-box {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 12px;
+}
+.demo-box p { font-size: 0.9rem; margin-bottom: 8px; color: #ccc; }
+.demo-result {
+  font-size: 0.85rem;
+  color: #14F195;
+  font-style: italic;
+}
+footer { text-align: center; padding: 40px; color: #444; font-size: 0.8rem; }
+@media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Sheclk AI Agent</h1>
+    <p class="subtitle">Autonomous AI Agent on Solana — powered by OOBE Protocol &amp; AceDataCloud</p>
+  </header>
+
+  <div class="card">
+    <h2><span class="status-dot dot-green"></span> Agent Status</h2>
+    <div class="grid">
+      <div class="item"><div class="label">Network</div><div class="value">Solana Mainnet-Beta</div></div>
+      <div class="item"><div class="label">Registration</div><div class="value"><span class="badge">Registered</span></div></div>
+      <div class="item"><div class="label">AI Provider</div><div class="value">AceDataCloud</div></div>
+      <div class="item"><div class="label">Wallet</div><div class="value" style="font-size:0.8rem">ds4N6jPQa599ni2839n4eJ7kDS4axzFxcDXP8uXk9ZQ</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>On-Chain Registries</h2>
+    <div class="grid">
+      <div class="item"><div class="label">Agent PDA</div><div class="value" style="font-size:0.75rem">5caF2hZGtk2C4b8cJe6Pc3yKEyRXvcnh1641A8pDLtPT</div></div>
+      <div class="item"><div class="label">Stats PDA</div><div class="value" style="font-size:0.75rem">2GaYYV7tP2TH15P9UTjvp2W7qC8GmQFiNK1KWMeVXc8f</div></div>
+    </div>
+    <div style="margin-top:12px">
+      <a href="https://solscan.io/tx/3qxXdsw6n8AcWsoTtKJXSo9Dss7HaEBmeh4GWxfZ3P7jmTRbhSPciwFQpdYq1694C23Usj7hPj4s13bfpQ5qsWe4" target="_blank">View Registration Transaction</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Capabilities</h2>
+    <div class="caps">
+      <span class="badge">ai:chat</span>
+      <span class="badge">ai:sentiment</span>
+      <span class="badge">ai:summarization</span>
+      <span class="badge">protocol:acedata</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>AI Demo</h2>
+    <div class="demo-box">
+      <p><strong>Chat</strong> — "What is Solana?"</p>
+      <div class="demo-result">"Solana is a high-performance blockchain platform designed for fast, low-cost transactions using a unique Proof of History consensus mechanism."</div>
+    </div>
+    <div class="demo-box">
+      <p><strong>Sentiment</strong> — "Solana is revolutionizing DeFi"</p>
+      <div class="demo-result">Positive</div>
+    </div>
+    <div class="demo-box">
+      <p><strong>Summarization</strong></p>
+      <div class="demo-result">"Fast, low-cost blockchain platform."</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="status-dot dot-green"></span> Daemon</h2>
+    <p style="font-size:0.85rem;color:#888">Runs every 5 min — checks wallet balance &amp; crypto sentiment</p>
+  </div>
+
+  <footer>
+    Built with OOBE Protocol SDK &bull; Powered by AceDataCloud &bull; Solana Mainnet
+  </footer>
+</div>
+</body>
+</html>

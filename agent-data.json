@@ -1,0 +1,12 @@
+{
+  "wallet": "ds4N6jPQa599ni2839n4eJ7kDS4axzFxcDXP8uXk9ZQ",
+  "registered": true,
+  "txSignature": "3qxXdsw6n8AcWsoTtKJXSo9Dss7HaEBmeh4GWxfZ3P7jmTRbhSPciwFQpdYq1694C23Usj7hPj4s13bfpQ5qsWe4",
+  "agentPda": "5caF2hZGtk2C4b8cJe6Pc3yKEyRXvcnh1641A8pDLtPT",
+  "statsPda": "2GaYYV7tP2TH15P9UTjvp2W7qC8GmQFiNK1KWMeVXc8f",
+  "network": "mainnet-beta",
+  "name": "Sheclk AI Agent",
+  "aiProvider": "AceDataCloud",
+  "capabilities": ["ai:chat", "ai:sentiment", "ai:summarization"],
+  "protocols": ["acedata"]
+}
