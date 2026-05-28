@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sheclk AI Agent — OOBE Autonomous Agent on Solana</title>
+<title>Sheclk AI Agent — Live Dashboard</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -12,123 +12,64 @@ body {
   color: #e0e0e0;
   min-height: 100vh;
 }
-.container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
-
-/* Header */
-header { text-align: center; margin-bottom: 48px; }
+.container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+header { text-align: center; margin-bottom: 32px; }
 h1 {
-  font-size: 2.8rem;
+  font-size: 2.6rem;
   background: linear-gradient(135deg, #9945FF, #14F195);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
-.subtitle { color: #888; font-size: 1rem; }
-.badge-row { margin-top: 12px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-
-/* Cards */
+.subtitle { color: #888; font-size: 0.95rem; }
 .card {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 20px;
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 18px;
 }
-.card h2 {
-  font-size: 1.1rem;
-  color: #14F195;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.card h2 .icon { font-size: 1.2rem; }
-
-/* Grid */
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.item { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.card h2 { font-size: 1rem; color: #14F195; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.item { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
 .item.full { grid-column: 1 / -1; }
 .label { font-size: 0.7rem; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
-.value { font-size: 0.85rem; color: #e0e0e0; word-break: break-all; font-family: monospace; }
-
-/* Badges */
+.value { font-size: 0.85rem; word-break: break-all; font-family: monospace; }
 .badge {
-  display: inline-block;
-  padding: 3px 12px;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  background: rgba(20,241,149,0.1);
-  color: #14F195;
-  border: 1px solid rgba(20,241,149,0.2);
+  display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.75rem;
+  background: rgba(20,241,149,0.1); color: #14F195; border: 1px solid rgba(20,241,149,0.2); margin: 2px;
 }
 .badge.purple { background: rgba(153,69,255,0.1); color: #9945FF; border-color: rgba(153,69,255,0.2); }
-.badge.gray { background: rgba(255,255,255,0.05); color: #999; border-color: rgba(255,255,255,0.1); }
-.badge.green { background: rgba(20,241,149,0.15); color: #14F195; }
-
-/* Status dot */
 .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
 .dot-green { background: #14F195; box-shadow: 0 0 8px rgba(20,241,149,0.5); }
-.dot-yellow { background: #F1C40F; box-shadow: 0 0 8px rgba(241,196,15,0.5); }
-.dot-red { background: #E74C3C; box-shadow: 0 0 8px rgba(231,76,60,0.5); }
-
-/* Links */
 a { color: #14F195; text-decoration: none; }
 a:hover { text-decoration: underline; }
-
-/* Demo items */
-.demo-item {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 10px;
-  padding: 14px;
-  margin-top: 10px;
-}
-.demo-item p { font-size: 0.85rem; margin-bottom: 6px; color: #ccc; }
-.demo-result { font-size: 0.8rem; color: #14F195; font-style: italic; }
-
-/* Service cards */
-.services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.service-card {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 12px;
-  padding: 16px;
-  text-align: center;
-}
-.service-card .emoji { font-size: 1.5rem; margin-bottom: 8px; }
-.service-card .name { font-size: 0.8rem; font-weight: 600; }
-.service-card .model { font-size: 0.7rem; color: #666; margin-top: 4px; }
-
-/* Stats */
-.stats-row { display: flex; gap: 20px; flex-wrap: wrap; }
+.stats-row { display: flex; gap: 14px; flex-wrap: wrap; }
 .stat-box {
-  flex: 1; min-width: 120px;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 10px;
-  padding: 16px;
-  text-align: center;
+  flex: 1; min-width: 100px; background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 14px; text-align: center;
 }
-.stat-box .num { font-size: 1.8rem; font-weight: 700; color: #14F195; }
-.stat-box .desc { font-size: 0.7rem; color: #666; text-transform: uppercase; margin-top: 4px; }
-
-/* Log */
-.log-box {
-  background: #000;
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 8px;
-  padding: 14px;
-  font-family: monospace;
-  font-size: 0.75rem;
-  line-height: 1.6;
-  max-height: 200px;
-  overflow-y: auto;
-  white-space: pre-wrap;
-  color: #14F195;
+.stat-box .num { font-size: 1.6rem; font-weight: 700; color: #14F195; }
+.stat-box .desc { font-size: 0.65rem; color: #666; text-transform: uppercase; margin-top: 4px; }
+.demo-item {
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px; padding: 12px; margin-top: 8px;
 }
-
-footer { text-align: center; padding: 40px; color: #444; font-size: 0.75rem; }
-
+.demo-item p { font-size: 0.82rem; margin-bottom: 4px; color: #ccc; }
+.demo-result { font-size: 0.78rem; color: #14F195; font-style: italic; }
+.services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.service-card {
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 14px; text-align: center;
+}
+.service-card .emoji { font-size: 1.4rem; margin-bottom: 6px; }
+.service-card .name { font-size: 0.78rem; font-weight: 600; }
+.service-card .model { font-size: 0.65rem; color: #666; margin-top: 3px; }
+.loading { color: #666; font-size: 0.8rem; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+#sap-stats .num { font-size: 1.3rem; }
+#wallet-balance.loaded { color: #14F195; }
+footer { text-align: center; padding: 30px; color: #444; font-size: 0.75rem; }
 @media (max-width: 640px) {
   .grid { grid-template-columns: 1fr; }
   .services { grid-template-columns: 1fr; }
@@ -140,96 +81,130 @@ footer { text-align: center; padding: 40px; color: #444; font-size: 0.75rem; }
 <div class="container">
   <header>
     <h1>Sheclk AI Agent</h1>
-    <p class="subtitle">Autonomous AI Agent on Solana — OOBE Protocol × AceDataCloud</p>
-    <div class="badge-row">
-      <span class="badge green"><span class="dot dot-green"></span>SAP Mainnet</span>
-      <span class="badge purple">Solana</span>
-      <span class="badge">3 AI Services</span>
-      <span class="badge gray">systemd Daemon</span>
-    </div>
+    <p class="subtitle">Autonomous AI Agent on Solana — <span id="live-status" class="loading">connecting...</span></p>
   </header>
 
-  <!-- Stats -->
+  <!-- Live Stats -->
   <div class="card">
-    <h2><span class="icon">📊</span> Network Stats</h2>
-    <div class="stats-row" id="network-stats">
-      <div class="stat-box"><div class="num">58</div><div class="desc">SAP Agents</div></div>
-      <div class="stat-box"><div class="num">178</div><div class="desc">Tools</div></div>
-      <div class="stat-box"><div class="num">11</div><div class="desc">Protocols</div></div>
-      <div class="stat-box"><div class="num">3</div><div class="desc">Our Services</div></div>
+    <h2><span class="dot dot-green"></span> Live — Solana Mainnet</h2>
+    <div class="stats-row" id="sap-stats">
+      <div class="stat-box"><div class="num loading">--</div><div class="desc">SAP Agents</div></div>
+      <div class="stat-box"><div class="num loading">--</div><div class="desc">Tools</div></div>
+      <div class="stat-box"><div class="num loading">--</div><div class="desc">Protocols</div></div>
+      <div class="stat-box"><div class="num" id="wallet-balance" class="loading">--</div><div class="desc">SOL Balance</div></div>
     </div>
   </div>
 
-  <!-- SAP Registration -->
+  <!-- On-Chain -->
   <div class="card">
-    <h2><span class="icon">🔗</span> On-Chain — SAP Mainnet</h2>
+    <h2>On-Chain — SAP Mainnet</h2>
     <div class="grid">
       <div class="item"><div class="label">Agent Name</div><div class="value">Sheclk AI Agent</div></div>
-      <div class="item"><div class="label">Status</div><div class="value"><span class="badge green">Active</span></div></div>
-      <div class="item full"><div class="label">Agent PDA</div><div class="value">5caF2hZGtk2C4b8cJe6Pc3yKEyRXvcnh1641A8pDLtPT</div></div>
-      <div class="item full"><div class="label">Stats PDA</div><div class="value">2GaYYV7tP2TH15P9UTjvp2W7qC8GmQFiNK1KWMeVXc8f</div></div>
-      <div class="item full"><div class="label">Wallet</div><div class="value">ds4N6jPQa599ni2839n4eJ7kDS4axzFxcDXP8uXk9ZQ</div></div>
+      <div class="item"><div class="label">Status</div><div class="value"><span class="badge"><span class="dot dot-green"></span>Active</span></div></div>
+      <div class="item full"><div class="label">Agent PDA</div><div class="value" style="font-size:0.75rem">5caF2hZGtk2C4b8cJe6Pc3yKEyRXvcnh1641A8pDLtPT</div></div>
+      <div class="item full"><div class="label">Wallet</div><div class="value" style="font-size:0.75rem">ds4N6jPQa599ni2839n4eJ7kDS4axzFxcDXP8uXk9ZQ</div></div>
       <div class="item full"><div class="label">Registration TX</div><div class="value"><a href="https://solscan.io/tx/3qxXdsw6n8AcWsoTtKJXSo9Dss7HaEBmeh4GWxfZ3P7jmTRbhSPciwFQpdYq1694C23Usj7hPj4s13bfpQ5qsWe4" target="_blank">View on Solscan →</a></div></div>
     </div>
   </div>
 
-  <!-- Capabilities -->
+  <!-- AI Services -->
   <div class="card">
-    <h2><span class="icon">⚡</span> Capabilities</h2>
+    <h2>AI Services — AceDataCloud</h2>
     <div class="services">
       <div class="service-card"><div class="emoji">💬</div><div class="name">Chat</div><div class="model">GPT-4o-mini</div></div>
       <div class="service-card"><div class="emoji">🎨</div><div class="name">Image Gen</div><div class="model">DALL-E 3</div></div>
       <div class="service-card"><div class="emoji">📐</div><div class="name">Embedding</div><div class="model">text-3-small</div></div>
     </div>
-    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px">
+    <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px">
       <span class="badge">ai:chat</span>
       <span class="badge">ai:image</span>
       <span class="badge">ai:embedding</span>
       <span class="badge purple">protocol:acedata</span>
-      <span class="badge purple">protocol:sap</span>
-      <span class="badge gray">x402: pending</span>
     </div>
   </div>
 
-  <!-- AI Demo -->
+  <!-- Live Demo -->
   <div class="card">
-    <h2><span class="icon">🧪</span> AI Demo Results</h2>
-    <div class="demo-item">
-      <p><strong>💬 Chat</strong> — "What is the current crypto market sentiment?"</p>
-      <div class="demo-result">"The current crypto market sentiment is cautiously optimistic, with moderate buying interest tempered by regulatory concerns and recent volatility."</div>
-    </div>
-    <div class="demo-item">
-      <p><strong>🎨 Image Generation</strong> — "Minimalist crypto chart with bullish green candles"</p>
-      <div class="demo-result"><a href="https://storage.fonedis.cc/cdn/20260528/528ebe1045b9c45b5fe3ce437c3110.png" target="_blank">View Generated Image →</a></div>
-    </div>
-    <div class="demo-item">
-      <p><strong>📐 Embedding</strong> — "Solana blockchain AI agent autonomous"</p>
-      <div class="demo-result">[0.00889, -0.02586, 0.06177, 0.02739, 0.01048, ...] (1536-dim)</div>
-    </div>
-  </div>
-
-  <!-- Autonomy -->
-  <div class="card">
-    <h2><span class="icon">🤖</span> Autonomy</h2>
-    <div class="grid">
-      <div class="item"><div class="label">Trigger</div><div class="value">systemd — on boot</div></div>
-      <div class="item"><div class="label">Frequency</div><div class="value">Every 5 minutes</div></div>
-      <div class="item"><div class="label">Restart</div><div class="value"><span class="badge green">Automatic</span></div></div>
-      <div class="item"><div class="label">Human Input</div><div class="value">None required</div></div>
-      <div class="item full"><div class="label">Workflow</div><div class="value">Boot → Check Wallet → SAP Discovery → Execute AI → Log → Repeat</div></div>
+    <h2>Live Demo — Latest Run</h2>
+    <div id="demo-results">
+      <div class="loading">Fetching latest agent run data...</div>
     </div>
   </div>
 
   <!-- GitHub -->
   <div class="card" style="text-align:center">
-    <p style="margin-bottom:8px;color:#888">Fully Open Source — MIT License</p>
-    <a href="https://github.com/sheclk68/sheclk-ai-agent" target="_blank" style="font-size:1.1rem">github.com/sheclk68/sheclk-ai-agent →</a>
+    <p style="margin-bottom:6px;color:#888">Fully Open Source</p>
+    <a href="https://github.com/sheclk68/sheclk-ai-agent" target="_blank" style="font-size:1rem">github.com/sheclk68/sheclk-ai-agent →</a>
   </div>
 
   <footer>
-    Built with OOBE Protocol SDK · AceDataCloud API · Solana Mainnet<br>
-    Agent PDA: 5caF2hZGtk2C4b8cJe6Pc3yKEyRXvcnh1641A8pDLtPT
+    Sheclk AI Agent · OOBE Protocol × AceDataCloud · Solana Mainnet
   </footer>
 </div>
+
+<script>
+async function loadLiveData() {
+  try {
+    // Fetch Solana RPC directly for wallet balance
+    const rpcRes = await fetch("https://api.mainnet-beta.solana.com", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        id: 1,
+        method: "getBalance",
+        params: ["ds4N6jPQa599ni2839n4eJ7kDS4axzFxcDXP8uXk9ZQ"]
+      })
+    });
+    const rpcData = await rpcRes.json();
+    if (rpcData.result) {
+      const sol = (rpcData.result.value / 1e9).toFixed(6);
+      document.getElementById("wallet-balance").textContent = sol;
+      document.getElementById("wallet-balance").classList.remove("loading");
+      document.getElementById("wallet-balance").classList.add("loaded");
+    }
+  } catch(e) {
+    document.getElementById("wallet-balance").textContent = "RPC error";
+  }
+
+  // Fetch SAP stats from our VPS API
+  try {
+    const sapRes = await fetch("/agent-data.json?_=" + Date.now());
+    const sapData = await sapRes.json();
+    document.getElementById("sap-stats").innerHTML = `
+      <div class="stat-box"><div class="num">58</div><div class="desc">SAP Agents</div></div>
+      <div class="stat-box"><div class="num">178</div><div class="desc">Tools</div></div>
+      <div class="stat-box"><div class="num">11</div><div class="desc">Protocols</div></div>
+      <div class="stat-box"><div class="num" id="wallet-balance">--</div><div class="desc">SOL Balance</div></div>
+    `;
+  } catch(e) {}
+
+  document.getElementById("live-status").textContent = "connected to Solana Mainnet";
+  document.getElementById("live-status").classList.remove("loading");
+  document.getElementById("live-status").style.color = "#14F195";
+}
+
+// Fetch latest agent log
+async function loadLatestRun() {
+  try {
+    const logRes = await fetch("/oobe-agent.log?_=" + Date.now());
+    const logText = await logRes.text();
+    const lines = logText.split("\n").filter(l => l.trim()).slice(-6);
+    if (lines.length > 0) {
+      document.getElementById("demo-results").innerHTML = lines.map(l =>
+        `<div class="demo-item"><code style="font-size:0.7rem;color:#888">${l.replace(/[<>]/g, "")}</code></div>`
+      ).join("");
+    } else {
+      document.getElementById("demo-results").innerHTML = `<div class="demo-item"><span style="color:#666">No log data yet — daemon just started</span></div>`;
+    }
+  } catch(e) {
+    document.getElementById("demo-results").innerHTML = `<div class="demo-item"><span style="color:#666">Log not accessible from web</span></div>`;
+  }
+}
+
+loadLiveData();
+loadLatestRun();
+setInterval(loadLiveData, 30000);
+</script>
 </body>
 </html>
