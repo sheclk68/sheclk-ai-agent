@@ -1,6 +1,7 @@
 const axios = require("axios");
 const { Connection, Keypair, LAMPORTS_PER_SOL } = require("@solana/web3.js");
 const bs58 = require("bs58");
+const { ToolDiscovery } = require("./tool-discoverer.js");
 
 const ACEDATA_KEY = "a93f53ca29bb4a1497f8471aaf2eb971";
 const PRIVATE_KEY = "5wW3GmCW9na7mH6unEhYHkzaJ6dAL35AmpxavXD8TVPbQUMyJJyrgzFvBzjj4LsyaCrwa6gKq3aBUBnMQHgpW6ht";
@@ -32,7 +33,7 @@ async function getEmbedding(text) {
         { model: "text-embedding-3-small", input: text },
         { headers: { Authorization: "Bearer " + ACEDATA_KEY } }
     );
-    return res.data.data[0].embedding.slice(0, 5); // preview first 5 values
+    return res.data.data[0].embedding.slice(0, 5);
 }
 
 async function checkBalance() {
@@ -46,30 +47,32 @@ async function tick() {
     const now = new Date().toISOString();
     try {
         const bal = await checkBalance();
+        const discoverer = new ToolDiscovery();
+        await discoverer.getNetworkOverview();
 
-        // Service 1: Chat - market sentiment
+        // Service 1: Chat
         const sentiment = await callAI("gpt-4o-mini", [
             { role: "user", content: "What is the current crypto market sentiment? Reply in one sentence." }
         ]);
         console.log("[%s] [CHAT] %s", now, sentiment);
 
-        // Service 2: Image generation - weekly market card
+        // Service 2: Image generation
         const imageUrl = await generateImage("A minimalist crypto market chart with bullish green candles, digital art style");
         console.log("[%s] [IMAGE] %s", now, imageUrl);
 
-        // Service 3: Embedding - demonstrate third capability
+        // Service 3: Embedding
         const embedding = await getEmbedding("Solana blockchain AI agent autonomous");
         console.log("[%s] [EMBED] preview: [%s ...]", now, embedding.join(", "));
 
-        console.log("[%s] All 3 AceDataCloud services working!", now);
+        console.log("[%s] All 3 AceDataCloud services + SAP Discovery working!", now);
     } catch (e) {
         console.error("[%s] Error: %s", now, e.message);
     }
 }
 
-console.log("[BOOT] OOBE Autonomous Agent Daemon v2");
+console.log("[BOOT] OOBE Autonomous Agent Daemon v3");
 console.log("[BOOT] Wallet: %s", WALLET.publicKey.toBase58());
-console.log("[BOOT] AceDataCloud Services: chat, image, embedding");
+console.log("[BOOT] Services: chat, image, embedding | SAP Discovery");
 
 tick();
 setInterval(tick, 5 * 60 * 1000);
