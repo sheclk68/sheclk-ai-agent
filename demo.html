@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OOBE Agent — Sheclk AI</title>
+<title>Sheclk AI Agent — OOBE Autonomous Agent on Solana</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -11,20 +11,22 @@ body {
   background: #0a0a1a;
   color: #e0e0e0;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
-.container { max-width: 900px; width: 100%; padding: 40px 20px; }
+.container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+
+/* Header */
 header { text-align: center; margin-bottom: 48px; }
 h1 {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   background: linear-gradient(135deg, #9945FF, #14F195);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 8px;
 }
 .subtitle { color: #888; font-size: 1rem; }
+.badge-row { margin-top: 12px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+
+/* Cards */
 .card {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.08);
@@ -32,108 +34,201 @@ h1 {
   padding: 24px;
   margin-bottom: 20px;
 }
-.card h2 { font-size: 1.1rem; color: #14F195; margin-bottom: 16px; }
+.card h2 {
+  font-size: 1.1rem;
+  color: #14F195;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card h2 .icon { font-size: 1.2rem; }
+
+/* Grid */
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .item { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.label { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
-.value { font-size: 0.9rem; color: #e0e0e0; word-break: break-all; font-family: monospace; }
+.item.full { grid-column: 1 / -1; }
+.label { font-size: 0.7rem; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+.value { font-size: 0.85rem; color: #e0e0e0; word-break: break-all; font-family: monospace; }
+
+/* Badges */
 .badge {
   display: inline-block;
-  padding: 2px 10px;
+  padding: 3px 12px;
   border-radius: 20px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   background: rgba(20,241,149,0.1);
   color: #14F195;
   border: 1px solid rgba(20,241,149,0.2);
-  margin: 2px;
 }
-.caps { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-.status-dot {
-  display: inline-block;
-  width: 8px; height: 8px; border-radius: 50%;
-  margin-right: 6px;
-}
+.badge.purple { background: rgba(153,69,255,0.1); color: #9945FF; border-color: rgba(153,69,255,0.2); }
+.badge.gray { background: rgba(255,255,255,0.05); color: #999; border-color: rgba(255,255,255,0.1); }
+.badge.green { background: rgba(20,241,149,0.15); color: #14F195; }
+
+/* Status dot */
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
 .dot-green { background: #14F195; box-shadow: 0 0 8px rgba(20,241,149,0.5); }
+.dot-yellow { background: #F1C40F; box-shadow: 0 0 8px rgba(241,196,15,0.5); }
+.dot-red { background: #E74C3C; box-shadow: 0 0 8px rgba(231,76,60,0.5); }
+
+/* Links */
 a { color: #14F195; text-decoration: none; }
 a:hover { text-decoration: underline; }
-.demo-box {
+
+/* Demo items */
+.demo-item {
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 14px;
+  margin-top: 10px;
+}
+.demo-item p { font-size: 0.85rem; margin-bottom: 6px; color: #ccc; }
+.demo-result { font-size: 0.8rem; color: #14F195; font-style: italic; }
+
+/* Service cards */
+.services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.service-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 12px;
   padding: 16px;
-  margin-top: 12px;
+  text-align: center;
 }
-.demo-box p { font-size: 0.9rem; margin-bottom: 8px; color: #ccc; }
-.demo-result {
-  font-size: 0.85rem;
+.service-card .emoji { font-size: 1.5rem; margin-bottom: 8px; }
+.service-card .name { font-size: 0.8rem; font-weight: 600; }
+.service-card .model { font-size: 0.7rem; color: #666; margin-top: 4px; }
+
+/* Stats */
+.stats-row { display: flex; gap: 20px; flex-wrap: wrap; }
+.stat-box {
+  flex: 1; min-width: 120px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+.stat-box .num { font-size: 1.8rem; font-weight: 700; color: #14F195; }
+.stat-box .desc { font-size: 0.7rem; color: #666; text-transform: uppercase; margin-top: 4px; }
+
+/* Log */
+.log-box {
+  background: #000;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 14px;
+  font-family: monospace;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  max-height: 200px;
+  overflow-y: auto;
+  white-space: pre-wrap;
   color: #14F195;
-  font-style: italic;
 }
-footer { text-align: center; padding: 40px; color: #444; font-size: 0.8rem; }
-@media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+
+footer { text-align: center; padding: 40px; color: #444; font-size: 0.75rem; }
+
+@media (max-width: 640px) {
+  .grid { grid-template-columns: 1fr; }
+  .services { grid-template-columns: 1fr; }
+  .stats-row { flex-direction: column; }
+}
 </style>
 </head>
 <body>
 <div class="container">
   <header>
     <h1>Sheclk AI Agent</h1>
-    <p class="subtitle">Autonomous AI Agent on Solana — powered by OOBE Protocol &amp; AceDataCloud</p>
+    <p class="subtitle">Autonomous AI Agent on Solana — OOBE Protocol × AceDataCloud</p>
+    <div class="badge-row">
+      <span class="badge green"><span class="dot dot-green"></span>SAP Mainnet</span>
+      <span class="badge purple">Solana</span>
+      <span class="badge">3 AI Services</span>
+      <span class="badge gray">systemd Daemon</span>
+    </div>
   </header>
 
+  <!-- Stats -->
   <div class="card">
-    <h2><span class="status-dot dot-green"></span> Agent Status</h2>
-    <div class="grid">
-      <div class="item"><div class="label">Network</div><div class="value">Solana Mainnet-Beta</div></div>
-      <div class="item"><div class="label">Registration</div><div class="value"><span class="badge">Registered</span></div></div>
-      <div class="item"><div class="label">AI Provider</div><div class="value">AceDataCloud</div></div>
-      <div class="item"><div class="label">Wallet</div><div class="value" style="font-size:0.8rem">ds4N6jPQa599ni2839n4eJ7kDS4axzFxcDXP8uXk9ZQ</div></div>
+    <h2><span class="icon">📊</span> Network Stats</h2>
+    <div class="stats-row" id="network-stats">
+      <div class="stat-box"><div class="num">58</div><div class="desc">SAP Agents</div></div>
+      <div class="stat-box"><div class="num">178</div><div class="desc">Tools</div></div>
+      <div class="stat-box"><div class="num">11</div><div class="desc">Protocols</div></div>
+      <div class="stat-box"><div class="num">3</div><div class="desc">Our Services</div></div>
     </div>
   </div>
 
+  <!-- SAP Registration -->
   <div class="card">
-    <h2>On-Chain Registries</h2>
+    <h2><span class="icon">🔗</span> On-Chain — SAP Mainnet</h2>
     <div class="grid">
-      <div class="item"><div class="label">Agent PDA</div><div class="value" style="font-size:0.75rem">5caF2hZGtk2C4b8cJe6Pc3yKEyRXvcnh1641A8pDLtPT</div></div>
-      <div class="item"><div class="label">Stats PDA</div><div class="value" style="font-size:0.75rem">2GaYYV7tP2TH15P9UTjvp2W7qC8GmQFiNK1KWMeVXc8f</div></div>
-    </div>
-    <div style="margin-top:12px">
-      <a href="https://solscan.io/tx/3qxXdsw6n8AcWsoTtKJXSo9Dss7HaEBmeh4GWxfZ3P7jmTRbhSPciwFQpdYq1694C23Usj7hPj4s13bfpQ5qsWe4" target="_blank">View Registration Transaction</a>
+      <div class="item"><div class="label">Agent Name</div><div class="value">Sheclk AI Agent</div></div>
+      <div class="item"><div class="label">Status</div><div class="value"><span class="badge green">Active</span></div></div>
+      <div class="item full"><div class="label">Agent PDA</div><div class="value">5caF2hZGtk2C4b8cJe6Pc3yKEyRXvcnh1641A8pDLtPT</div></div>
+      <div class="item full"><div class="label">Stats PDA</div><div class="value">2GaYYV7tP2TH15P9UTjvp2W7qC8GmQFiNK1KWMeVXc8f</div></div>
+      <div class="item full"><div class="label">Wallet</div><div class="value">ds4N6jPQa599ni2839n4eJ7kDS4axzFxcDXP8uXk9ZQ</div></div>
+      <div class="item full"><div class="label">Registration TX</div><div class="value"><a href="https://solscan.io/tx/3qxXdsw6n8AcWsoTtKJXSo9Dss7HaEBmeh4GWxfZ3P7jmTRbhSPciwFQpdYq1694C23Usj7hPj4s13bfpQ5qsWe4" target="_blank">View on Solscan →</a></div></div>
     </div>
   </div>
 
+  <!-- Capabilities -->
   <div class="card">
-    <h2>Capabilities</h2>
-    <div class="caps">
+    <h2><span class="icon">⚡</span> Capabilities</h2>
+    <div class="services">
+      <div class="service-card"><div class="emoji">💬</div><div class="name">Chat</div><div class="model">GPT-4o-mini</div></div>
+      <div class="service-card"><div class="emoji">🎨</div><div class="name">Image Gen</div><div class="model">DALL-E 3</div></div>
+      <div class="service-card"><div class="emoji">📐</div><div class="name">Embedding</div><div class="model">text-3-small</div></div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px">
       <span class="badge">ai:chat</span>
-      <span class="badge">ai:sentiment</span>
-      <span class="badge">ai:summarization</span>
-      <span class="badge">protocol:acedata</span>
+      <span class="badge">ai:image</span>
+      <span class="badge">ai:embedding</span>
+      <span class="badge purple">protocol:acedata</span>
+      <span class="badge purple">protocol:sap</span>
+      <span class="badge gray">x402: pending</span>
     </div>
   </div>
 
+  <!-- AI Demo -->
   <div class="card">
-    <h2>AI Demo</h2>
-    <div class="demo-box">
-      <p><strong>Chat</strong> — "What is Solana?"</p>
-      <div class="demo-result">"Solana is a high-performance blockchain platform designed for fast, low-cost transactions using a unique Proof of History consensus mechanism."</div>
+    <h2><span class="icon">🧪</span> AI Demo Results</h2>
+    <div class="demo-item">
+      <p><strong>💬 Chat</strong> — "What is the current crypto market sentiment?"</p>
+      <div class="demo-result">"The current crypto market sentiment is cautiously optimistic, with moderate buying interest tempered by regulatory concerns and recent volatility."</div>
     </div>
-    <div class="demo-box">
-      <p><strong>Sentiment</strong> — "Solana is revolutionizing DeFi"</p>
-      <div class="demo-result">Positive</div>
+    <div class="demo-item">
+      <p><strong>🎨 Image Generation</strong> — "Minimalist crypto chart with bullish green candles"</p>
+      <div class="demo-result"><a href="https://storage.fonedis.cc/cdn/20260528/528ebe1045b9c45b5fe3ce437c3110.png" target="_blank">View Generated Image →</a></div>
     </div>
-    <div class="demo-box">
-      <p><strong>Summarization</strong></p>
-      <div class="demo-result">"Fast, low-cost blockchain platform."</div>
+    <div class="demo-item">
+      <p><strong>📐 Embedding</strong> — "Solana blockchain AI agent autonomous"</p>
+      <div class="demo-result">[0.00889, -0.02586, 0.06177, 0.02739, 0.01048, ...] (1536-dim)</div>
     </div>
   </div>
 
+  <!-- Autonomy -->
   <div class="card">
-    <h2><span class="status-dot dot-green"></span> Daemon</h2>
-    <p style="font-size:0.85rem;color:#888">Runs every 5 min — checks wallet balance &amp; crypto sentiment</p>
+    <h2><span class="icon">🤖</span> Autonomy</h2>
+    <div class="grid">
+      <div class="item"><div class="label">Trigger</div><div class="value">systemd — on boot</div></div>
+      <div class="item"><div class="label">Frequency</div><div class="value">Every 5 minutes</div></div>
+      <div class="item"><div class="label">Restart</div><div class="value"><span class="badge green">Automatic</span></div></div>
+      <div class="item"><div class="label">Human Input</div><div class="value">None required</div></div>
+      <div class="item full"><div class="label">Workflow</div><div class="value">Boot → Check Wallet → SAP Discovery → Execute AI → Log → Repeat</div></div>
+    </div>
+  </div>
+
+  <!-- GitHub -->
+  <div class="card" style="text-align:center">
+    <p style="margin-bottom:8px;color:#888">Fully Open Source — MIT License</p>
+    <a href="https://github.com/sheclk68/sheclk-ai-agent" target="_blank" style="font-size:1.1rem">github.com/sheclk68/sheclk-ai-agent →</a>
   </div>
 
   <footer>
-    Built with OOBE Protocol SDK &bull; Powered by AceDataCloud &bull; Solana Mainnet
+    Built with OOBE Protocol SDK · AceDataCloud API · Solana Mainnet<br>
+    Agent PDA: 5caF2hZGtk2C4b8cJe6Pc3yKEyRXvcnh1641A8pDLtPT
   </footer>
 </div>
 </body>
