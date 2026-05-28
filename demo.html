@@ -5,206 +5,236 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sheclk AI Agent — Live Dashboard</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: #0a0a1a;
-  color: #e0e0e0;
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  background: #0b0d17;
+  color: #e8eaed;
   min-height: 100vh;
 }
-.container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
-header { text-align: center; margin-bottom: 32px; }
-h1 {
-  font-size: 2.6rem;
-  background: linear-gradient(135deg, #9945FF, #14F195);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 6px;
+.app { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 240px; background: #0f111e; border-right: 1px solid rgba(255,255,255,0.06);
+  padding: 24px 16px; flex-shrink: 0; position: sticky; top: 0; height: 100vh;
 }
-.subtitle { color: #888; font-size: 0.95rem; }
-.card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 14px;
-  padding: 22px;
-  margin-bottom: 18px;
+.sidebar-logo { font-size: 1.1rem; font-weight: 700; margin-bottom: 32px; display: flex; align-items: center; gap: 10px; }
+.sidebar-logo .accent { color: #14F195; }
+.sidebar-logo .dot { width: 8px; height: 8px; background: #14F195; border-radius: 50%; display: inline-block; box-shadow: 0 0 12px rgba(20,241,149,0.5); }
+.nav-item {
+  display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px;
+  color: #6b7280; font-size: 0.85rem; cursor: pointer; margin-bottom: 2px;
 }
-.card h2 { font-size: 1rem; color: #14F195; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.item { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.item.full { grid-column: 1 / -1; }
-.label { font-size: 0.7rem; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
-.value { font-size: 0.85rem; word-break: break-all; font-family: monospace; }
-.badge {
-  display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.75rem;
-  background: rgba(20,241,149,0.1); color: #14F195; border: 1px solid rgba(20,241,149,0.2); margin: 2px;
+.nav-item:hover { background: rgba(255,255,255,0.04); color: #e8eaed; }
+.nav-item.active { background: rgba(20,241,149,0.08); color: #14F195; font-weight: 500; }
+.nav-item .icon { width: 20px; text-align: center; font-size: 1rem; }
+.nav-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 16px 0; }
+.nav-label { font-size: 0.65rem; color: #4b5563; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; padding-left: 12px; }
+.main { flex: 1; padding: 28px 32px; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+.header h1 { font-size: 1.5rem; font-weight: 700; }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.status-badge {
+  display: flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px;
+  font-size: 0.75rem; background: rgba(20,241,149,0.08); color: #14F195; border: 1px solid rgba(20,241,149,0.15);
 }
-.badge.purple { background: rgba(153,69,255,0.1); color: #9945FF; border-color: rgba(153,69,255,0.2); }
-.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
-.dot-green { background: #14F195; box-shadow: 0 0 8px rgba(20,241,149,0.5); }
-a { color: #14F195; text-decoration: none; }
-a:hover { text-decoration: underline; }
-.stats-row { display: flex; gap: 14px; flex-wrap: wrap; }
-.stat-box {
-  flex: 1; min-width: 100px; background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 14px; text-align: center;
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: #14F195; box-shadow: 0 0 8px rgba(20,241,149,0.5); display: inline-block; }
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+.stat-card {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px; padding: 18px;
 }
-.stat-box .num { font-size: 1.6rem; font-weight: 700; color: #14F195; }
-.stat-box .desc { font-size: 0.65rem; color: #666; text-transform: uppercase; margin-top: 4px; }
-.demo-item {
+.stat-card:hover { border-color: rgba(20,241,149,0.2); }
+.stat-card .label { font-size: 0.7rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-card .value { font-size: 1.5rem; font-weight: 700; margin-top: 6px; }
+.stat-card .sub { font-size: 0.7rem; color: #6b7280; margin-top: 2px; }
+.stat-card .value.green { color: #14F195; }
+.stat-card .value.purple { color: #9945FF; }
+.stat-card .value.blue { color: #60a5fa; }
+.stat-card .value.orange { color: #f59e0b; }
+.panels { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 24px; }
+.panel {
   background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 8px; padding: 12px; margin-top: 8px;
+  border-radius: 12px; padding: 20px;
 }
-.demo-item p { font-size: 0.82rem; margin-bottom: 4px; color: #ccc; }
-.demo-result { font-size: 0.78rem; color: #14F195; font-style: italic; }
-.services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.panel h3 { font-size: 0.85rem; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px; }
+.panel-full { grid-column: 1 / -1; }
+.activity-item {
+  display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.activity-item:last-child { border-bottom: none; }
+.activity-icon {
+  width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem; flex-shrink: 0;
+}
+.activity-icon.green { background: rgba(20,241,149,0.1); }
+.activity-icon.blue { background: rgba(96,165,250,0.1); }
+.activity-icon.yellow { background: rgba(245,158,11,0.1); }
+.activity-content { flex: 1; }
+.activity-title { font-size: 0.82rem; margin-bottom: 2px; }
+.activity-time { font-size: 0.68rem; color: #6b7280; }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .service-card {
-  background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 10px; padding: 14px; text-align: center;
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px; padding: 16px; text-align: center;
 }
-.service-card .emoji { font-size: 1.4rem; margin-bottom: 6px; }
-.service-card .name { font-size: 0.78rem; font-weight: 600; }
-.service-card .model { font-size: 0.65rem; color: #666; margin-top: 3px; }
-.loading { color: #666; font-size: 0.8rem; animation: pulse 1.5s infinite; }
-@keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
-#sap-stats .num { font-size: 1.3rem; }
-#wallet-balance.loaded { color: #14F195; }
-footer { text-align: center; padding: 30px; color: #444; font-size: 0.75rem; }
-@media (max-width: 640px) {
-  .grid { grid-template-columns: 1fr; }
-  .services { grid-template-columns: 1fr; }
-  .stats-row { flex-direction: column; }
+.service-card:hover { border-color: rgba(20,241,149,0.2); transform: translateY(-1px); }
+.service-card .emoji { font-size: 1.8rem; margin-bottom: 8px; }
+.service-card .name { font-size: 0.82rem; font-weight: 600; }
+.service-card .model { font-size: 0.68rem; color: #6b7280; margin-top: 4px; }
+.service-card .calls { font-size: 0.7rem; color: #14F195; margin-top: 8px; }
+.chain-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.chain-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.82rem; }
+.chain-item .key { color: #6b7280; }
+.chain-item .val { font-family: monospace; font-size: 0.72rem; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chain-item .val a { color: #14F195; text-decoration: none; }
+.loading { color: #6b7280; font-size: 0.8rem; }
+.log-box {
+  background: #060714; border: 1px solid rgba(255,255,255,0.06); border-radius: 8px;
+  padding: 14px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.68rem;
+  line-height: 1.7; max-height: 200px; overflow-y: auto; color: #6b7280;
+}
+.log-box .hl { color: #14F195; }
+.tag {
+  display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.68rem;
+  background: rgba(20,241,149,0.08); color: #14F195; border: 1px solid rgba(20,241,149,0.12); margin: 2px;
+}
+.tag.purple { background: rgba(153,69,255,0.1); color: #9945FF; border-color: rgba(153,69,255,0.15); }
+.tag.blue { background: rgba(96,165,250,0.1); color: #60a5fa; border-color: rgba(96,165,250,0.15); }
+.tag.gray { background: rgba(255,255,255,0.04); color: #6b7280; border-color: rgba(255,255,255,0.06); }
+footer { text-align: center; padding: 24px 0; color: #374151; font-size: 0.72rem; }
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 16px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .panels { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
-<div class="container">
-  <header>
-    <h1>Sheclk AI Agent</h1>
-    <p class="subtitle">Autonomous AI Agent on Solana — <span id="live-status" class="loading">connecting...</span></p>
-  </header>
-
-  <!-- Live Stats -->
-  <div class="card">
-    <h2><span class="dot dot-green"></span> Live — Solana Mainnet</h2>
-    <div class="stats-row" id="sap-stats">
-      <div class="stat-box"><div class="num loading">--</div><div class="desc">SAP Agents</div></div>
-      <div class="stat-box"><div class="num loading">--</div><div class="desc">Tools</div></div>
-      <div class="stat-box"><div class="num loading">--</div><div class="desc">Protocols</div></div>
-      <div class="stat-box"><div class="num" id="wallet-balance" class="loading">--</div><div class="desc">SOL Balance</div></div>
-    </div>
+<div class="app">
+  <div class="sidebar">
+    <div class="sidebar-logo"><span class="dot"></span><span class="accent">Sheclk</span> AI</div>
+    <div class="nav-item active"><span class="icon">📊</span> Dashboard</div>
+    <div class="nav-item"><span class="icon">🤖</span> Agent</div>
+    <div class="nav-item"><span class="icon">🔗</span> On-Chain</div>
+    <div class="nav-item"><span class="icon">🛠️</span> Services</div>
+    <div class="nav-item"><span class="icon">📋</span> Activity</div>
+    <div class="nav-divider"></div>
+    <div class="nav-label">Network</div>
+    <div class="nav-item"><span class="icon">🌐</span> SAP Explorer</div>
+    <div class="nav-item"><span class="icon">📄</span> GitHub</div>
   </div>
-
-  <!-- On-Chain -->
-  <div class="card">
-    <h2>On-Chain — SAP Mainnet</h2>
-    <div class="grid">
-      <div class="item"><div class="label">Agent Name</div><div class="value">Sheclk AI Agent</div></div>
-      <div class="item"><div class="label">Status</div><div class="value"><span class="badge"><span class="dot dot-green"></span>Active</span></div></div>
-      <div class="item full"><div class="label">Agent PDA</div><div class="value" style="font-size:0.75rem">5caF2hZGtk2C4b8cJe6Pc3yKEyRXvcnh1641A8pDLtPT</div></div>
-      <div class="item full"><div class="label">Wallet</div><div class="value" style="font-size:0.75rem">ds4N6jPQa599ni2839n4eJ7kDS4axzFxcDXP8uXk9ZQ</div></div>
-      <div class="item full"><div class="label">Registration TX</div><div class="value"><a href="https://solscan.io/tx/3qxXdsw6n8AcWsoTtKJXSo9Dss7HaEBmeh4GWxfZ3P7jmTRbhSPciwFQpdYq1694C23Usj7hPj4s13bfpQ5qsWe4" target="_blank">View on Solscan →</a></div></div>
+  <div class="main">
+    <div class="header">
+      <h1>Dashboard</h1>
+      <div class="header-right">
+        <div class="status-badge"><span class="status-dot"></span> Solana Mainnet</div>
+        <div class="status-badge" style="background:rgba(153,69,255,0.08);color:#9945FF;border-color:rgba(153,69,255,0.15)">
+          <span class="status-dot" style="background:#9945FF;box-shadow:0 0 8px rgba(153,69,255,0.5)"></span> SAP Active
+        </div>
+      </div>
     </div>
-  </div>
-
-  <!-- AI Services -->
-  <div class="card">
-    <h2>AI Services — AceDataCloud</h2>
-    <div class="services">
-      <div class="service-card"><div class="emoji">💬</div><div class="name">Chat</div><div class="model">GPT-4o-mini</div></div>
-      <div class="service-card"><div class="emoji">🎨</div><div class="name">Image Gen</div><div class="model">DALL-E 3</div></div>
-      <div class="service-card"><div class="emoji">📐</div><div class="name">Embedding</div><div class="model">text-3-small</div></div>
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card"><div class="label">SOL Balance</div><div class="value green" id="sol-balance">--</div><div class="sub" id="sol-usd">Loading...</div></div>
+      <div class="stat-card"><div class="label">SAP Agents</div><div class="value purple">58</div><div class="sub">on mainnet</div></div>
+      <div class="stat-card"><div class="label">Tools</div><div class="value blue">178</div><div class="sub">registered</div></div>
+      <div class="stat-card"><div class="label">Our Services</div><div class="value orange">3</div><div class="sub">AceDataCloud</div></div>
     </div>
-    <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px">
-      <span class="badge">ai:chat</span>
-      <span class="badge">ai:image</span>
-      <span class="badge">ai:embedding</span>
-      <span class="badge purple">protocol:acedata</span>
+    <div class="panels">
+      <div class="panel">
+        <h3>🤖 Agent Activity</h3>
+        <div id="activity-feed"><div class="loading">Connecting to agent...</div></div>
+      </div>
+      <div class="panel">
+        <h3>🔗 On-Chain</h3>
+        <div class="chain-grid">
+          <div class="chain-item"><span class="key">Agent Name</span><span class="val">Sheclk AI Agent</span></div>
+          <div class="chain-item"><span class="key">Status</span><span class="val" style="color:#14F195">Active</span></div>
+          <div class="chain-item"><span class="key">Agent PDA</span><span class="val" style="font-size:0.62rem">5caF2hZGtk2C4b8cJe6Pc3yKEyRXvcnh1641A8pDLtPT</span></div>
+          <div class="chain-item"><span class="key">Network</span><span class="val">Solana Mainnet</span></div>
+          <div class="chain-item"><span class="key">Wallet</span><span class="val" style="font-size:0.62rem">ds4N6jPQa599ni2839n4eJ7kDS4axzFxcDXP8uXk9ZQ</span></div>
+          <div class="chain-item"><span class="key">Reg TX</span><span class="val"><a href="https://solscan.io/tx/3qxXdsw6n8AcWsoTtKJXSo9Dss7HaEBmeh4GWxfZ3P7jmTRbhSPciwFQpdYq1694C23Usj7hPj4s13bfpQ5qsWe4" target="_blank">View ↗</a></span></div>
+        </div>
+        <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:4px">
+          <span class="tag">ai:chat</span>
+          <span class="tag purple">ai:image</span>
+          <span class="tag blue">ai:embedding</span>
+          <span class="tag gray">acedata</span>
+          <span class="tag gray">sap</span>
+        </div>
+      </div>
     </div>
-  </div>
-
-  <!-- Live Demo -->
-  <div class="card">
-    <h2>Live Demo — Latest Run</h2>
-    <div id="demo-results">
-      <div class="loading">Fetching latest agent run data...</div>
+    <div class="panel" style="margin-bottom:24px">
+      <h3>🛠️ AI Services — AceDataCloud</h3>
+      <div class="services-grid">
+        <div class="service-card"><div class="emoji">💬</div><div class="name">Chat</div><div class="model">GPT-4o-mini</div><div class="calls">Active</div></div>
+        <div class="service-card"><div class="emoji">🎨</div><div class="name">Image Gen</div><div class="model">DALL-E 3</div><div class="calls">Active</div></div>
+        <div class="service-card"><div class="emoji">📐</div><div class="name">Embedding</div><div class="model">text-3-small</div><div class="calls">Active</div></div>
+      </div>
     </div>
+    <div class="panel panel-full">
+      <h3>📋 Daemon Log</h3>
+      <div class="log-box" id="log-viewer">Waiting for data...</div>
+    </div>
+    <footer>Sheclk AI Agent · OOBE Protocol x AceDataCloud · Solana Mainnet</footer>
   </div>
-
-  <!-- GitHub -->
-  <div class="card" style="text-align:center">
-    <p style="margin-bottom:6px;color:#888">Fully Open Source</p>
-    <a href="https://github.com/sheclk68/sheclk-ai-agent" target="_blank" style="font-size:1rem">github.com/sheclk68/sheclk-ai-agent →</a>
-  </div>
-
-  <footer>
-    Sheclk AI Agent · OOBE Protocol × AceDataCloud · Solana Mainnet
-  </footer>
 </div>
-
 <script>
-async function loadLiveData() {
+async function loadStats() {
   try {
-    // Fetch Solana RPC directly for wallet balance
-    const rpcRes = await fetch("https://api.mainnet-beta.solana.com", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        jsonrpc: "2.0",
-        id: 1,
-        method: "getBalance",
-        params: ["ds4N6jPQa599ni2839n4eJ7kDS4axzFxcDXP8uXk9ZQ"]
-      })
+    const r = await fetch("https://api.mainnet-beta.solana.com", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({jsonrpc:"2.0",id:1,method:"getBalance",params:["ds4N6jPQa599ni2839n4eJ7kDS4axzFxcDXP8uXk9ZQ"]})
     });
-    const rpcData = await rpcRes.json();
-    if (rpcData.result) {
-      const sol = (rpcData.result.value / 1e9).toFixed(6);
-      document.getElementById("wallet-balance").textContent = sol;
-      document.getElementById("wallet-balance").classList.remove("loading");
-      document.getElementById("wallet-balance").classList.add("loaded");
+    const d = await r.json();
+    if (d.result) {
+      const sol = (d.result.value / 1e9).toFixed(6);
+      document.getElementById("sol-balance").textContent = sol;
+      document.getElementById("sol-usd").textContent = "$" + (sol * 160).toFixed(2) + " USD";
     }
-  } catch(e) {
-    document.getElementById("wallet-balance").textContent = "RPC error";
-  }
-
-  // Fetch SAP stats from our VPS API
-  try {
-    const sapRes = await fetch("/agent-data.json?_=" + Date.now());
-    const sapData = await sapRes.json();
-    document.getElementById("sap-stats").innerHTML = `
-      <div class="stat-box"><div class="num">58</div><div class="desc">SAP Agents</div></div>
-      <div class="stat-box"><div class="num">178</div><div class="desc">Tools</div></div>
-      <div class="stat-box"><div class="num">11</div><div class="desc">Protocols</div></div>
-      <div class="stat-box"><div class="num" id="wallet-balance">--</div><div class="desc">SOL Balance</div></div>
-    `;
   } catch(e) {}
-
-  document.getElementById("live-status").textContent = "connected to Solana Mainnet";
-  document.getElementById("live-status").classList.remove("loading");
-  document.getElementById("live-status").style.color = "#14F195";
 }
-
-// Fetch latest agent log
-async function loadLatestRun() {
+async function loadActivity() {
   try {
-    const logRes = await fetch("/oobe-agent.log?_=" + Date.now());
-    const logText = await logRes.text();
-    const lines = logText.split("\n").filter(l => l.trim()).slice(-6);
+    const r = await fetch("/oobe-agent.log?_=" + Date.now());
+    const txt = await r.text();
+    const lines = txt.split("\\n").filter(l => l.trim()).slice(-8);
     if (lines.length > 0) {
-      document.getElementById("demo-results").innerHTML = lines.map(l =>
-        `<div class="demo-item"><code style="font-size:0.7rem;color:#888">${l.replace(/[<>]/g, "")}</code></div>`
-      ).join("");
+      const icons = ["\\ud83d\\udcac","\\ud83c\\udfa8","\\ud83d\\udcd0","\\ud83e\\udd16","\\ud83d\\udd17","\\u26a1","\\u2705","\\ud83d\\udcca"];
+      document.getElementById("activity-feed").innerHTML = lines.map((line,i) => {
+        const parts = line.split("] ");
+        const time = parts.length > 1 ? parts[0].substring(1) + "]" : "";
+        const msg = parts.length > 1 ? parts.slice(1).join("] ") : line;
+        let cls = "green";
+        if (msg.includes("[CHAT]")) cls = "blue";
+        if (msg.includes("[IMAGE]")) cls = "yellow";
+        if (msg.includes("Error")) cls = "purple";
+        const icon = i < icons.length ? icons[i] : "\\u2705";
+        return '<div class="activity-item"><div class="activity-icon ' + cls + '">' + icon + '</div><div class="activity-content"><div class="activity-title">' + msg.replace(/[<>]/g,"").substring(0,100) + '</div><div class="activity-time">' + time + '</div></div></div>';
+      }).join("");
     } else {
-      document.getElementById("demo-results").innerHTML = `<div class="demo-item"><span style="color:#666">No log data yet — daemon just started</span></div>`;
+      document.getElementById("activity-feed").innerHTML = '<div style="color:#6b7280;font-size:0.82rem">No recent activity</div>';
     }
   } catch(e) {
-    document.getElementById("demo-results").innerHTML = `<div class="demo-item"><span style="color:#666">Log not accessible from web</span></div>`;
+    document.getElementById("activity-feed").innerHTML = '<div style="color:#6b7280;font-size:0.82rem">Unable to fetch logs</div>';
   }
 }
-
-loadLiveData();
-loadLatestRun();
-setInterval(loadLiveData, 30000);
+async function loadLog() {
+  try {
+    const r = await fetch("/oobe-agent.log?_=" + Date.now());
+    const txt = await r.text();
+    const lines = txt.split("\\n").filter(l => l.trim()).slice(-15);
+    document.getElementById("log-viewer").innerHTML = lines.map(function(l) {
+      return '<div>' + l.replace(/\\[(\\w+)\\]/g, '<span class="hl">[$1]</span>') + '</div>';
+    }).join("") || '<div style="color:#4b5563">No log data available</div>';
+  } catch(e) {
+    document.getElementById("log-viewer").innerHTML = '<div style="color:#4b5563">Unable to fetch daemon log</div>';
+  }
+}
+loadStats(); loadActivity(); loadLog();
+setInterval(function() { loadStats(); loadActivity(); }, 15000);
 </script>
 </body>
 </html>
